@@ -1,39 +1,80 @@
-
-import React, { useEffect } from 'react'
-import { AppBar, Container, Grid, Grow, Typography } from '@material-ui/core'
-import memo from './images/memo.png'
-import Posts from './components/Posts/Posts'
-import Form from './components/form/Form'
-import useStyles from './Styles.js'
-import { useDispatch } from 'react-redux'
-import {getPosts} from './redux/actions/Posts'
+import React from 'react'
+// import {styled}
+import styled from 'styled-components'
 
 const App = () => {
-  const classes = useStyles()
-  const dispatch = useDispatch()
 
-  useEffect(()=>{
-    dispatch(getPosts())
-  },[dispatch])
+  const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;
+
+  const Wrapper = styled.section`
+  padding: 2em 4rem;
+  background: papayawhip;
+`;
+
+// you can pass props to chnage the styling of the component according to the props passed to it 
+
+const Button = styled.button`
+  /* Adapt the colors based on primary prop */
+  background: ${props => props.primary ? "palevioletred" : "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+
+  // In the example below , you inhrerite the styling of another components and just overrite  some properties
+
+const TomatoButton = styled(Button)`
+  color: tomato;
+  border-color: tomato;
+`;
+
+  const Link = ({ className, children }) => (
+  <a className={className}>
+    {children}
+  </a>
+);
+
+const StyledLink = styled(Link)`
+  color: palevioletred;
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  padding: 0.5em;
+  margin: 0.5em;
+  color: ${props => props.inputColor || "palevioletred"};
+  background: papayawhip;
+  border: none;
+  border-radius: 3px;
+`;
+
+
+
   return (
-    <Container maxWidth='lg' >
-      <AppBar className={classes.appBar} position='static' color='inherit' >
-        <Typography className={classes.heading} variant='h2' align='center'>Memories</Typography>
-        <img className={classes.image} src={memo} alt="memories" height="60"  />
-      </AppBar>
-      <Grow in >
-        <Container>
-          <Grid container spacing={3} justify='space-between' alignItems='stretch' >
-            <Grid item xs={12} sm={7}>
-              <Posts/>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Form/>
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
-    </Container>
+    <Wrapper>
+    <Title>
+      Hello World!
+    </Title>
+    <Button as="a" href="#" >Normal </Button>
+    <Button primary>Primary</Button>
+    <TomatoButton>Tomato Button</TomatoButton>
+    <Link>Unstyled, boring Link</Link>
+    <br />
+    <StyledLink>Styled, exciting Link</StyledLink>
+
+    <div>
+    <Input defaultValue="@probablyup" type="text" />
+    <Input defaultValue="@geelen" type="text" inputColor="rebeccapurple" />
+  </div>
+  </Wrapper>
   )
 }
 
